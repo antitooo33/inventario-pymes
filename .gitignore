@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 .venv/
 venv/
+.pytest_cache/
 
 # Credenciales: clave de root en texto plano, no subir
 _archivo/Avance_inventario/conexion.py

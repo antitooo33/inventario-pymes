@@ -1,0 +1,52 @@
+# CI: ejecuta las pruebas en cada push a main y en cada Pull Request.
+# GitHub levanta un MySQL 8 de prueba, instala las dependencias y corre pytest.
+# Si un test falla, el PR queda marcado con una X roja.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+
+    # Servidor MySQL que vive solo mientras dura el CI
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        # Espera a que MySQL esté listo antes de seguir
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+    # conftest.py lee estas variables para conectarse al MySQL de arriba
+    env:
+      DB_HOST: 127.0.0.1
+      DB_PORT: "3306"
+      DB_USER: root
+      DB_PASSWORD: root
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install -r app/requirements.txt
+
+      - name: Ejecutar pruebas
+        working-directory: app
+        run: pytest -v

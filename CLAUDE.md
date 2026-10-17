@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-App de consola en Python + MySQL: **Inventario ligero para Pymes**. Proyecto Scrum del ramo Metodología de Desarrollo Ágil (INACAP 2026-P). Felipe Melo es el **programador en jefe**. Sin git, sin tests, sin `requirements.txt`. El código se comparte con el equipo por Google Drive.
+App de consola en Python + MySQL: **Inventario ligero para Pymes**. Proyecto Scrum del ramo Metodología de Desarrollo Ágil (INACAP 2026-P). Felipe Melo es el **programador en jefe**. Repo privado: https://github.com/felipemelo720/inventario-pymes (sin protección de `main`: requiere GitHub Pro). El equipo también comparte el código por Google Drive.
 
 Contexto completo del ramo (teoría, requisitos de evaluación, estado de evidencias): `docs/contexto-ramo.md`. Leerlo solo si la tarea lo necesita. Documentos originales en `~/metodologia-agil/`.
 
@@ -44,6 +44,7 @@ Reorganizado el 17-10-2026 (respaldo del estado anterior en el scratchpad de la 
 
 ```
 app/         código ejecutable: main.py, conexion.py, productos.py, stock.py, requirements.txt
+app/tests/   pruebas pytest (fixture en app/conftest.py)
 db/          inventario_pymes.sql
 docs/        contexto-ramo.md
 _archivo/    material descartado: pyme.py (prototipo obsoleto), Avance_inventario/ (versión de Benjamín)
@@ -84,6 +85,13 @@ pip install mysql-connector-python
 mysql -u root -p < db/inventario_pymes.sql   # crea la BD; borra datos si ya existe
 cd app && python main.py
 ```
+
+### Tests
+`app/conftest.py` + `app/tests/` (pytest, 27 tests de HU-01, HU-04, HU-05, HU-06). Usan la BD `inventario_pymes_test`, que se recrea desde `db/inventario_pymes.sql` antes de cada test: nunca tocan la BD real. Conexión por defecto = `CONFIG`; se puede cambiar con `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`.
+```bash
+pip install -r app/requirements.txt
+cd app && pytest
+```
 Los imports son por nombre de módulo (`from conexion import ...`), así que hay que ejecutar desde dentro de `app/`.
 
 ## Convenciones
@@ -109,5 +117,5 @@ Más Release Notes. El tablero y el burndown los lleva el SM, pero las tarjetas 
 3. `mostrar_tabla` marca "bajo mínimo" con `<`; HU-08 exige `<=`.
 4. HU-10: escribir el CSV con `encoding="utf-8-sig"` y `delimiter=";"` para Excel en español.
 5. HU-03: la columna `activo` ya existe en la BD. Falta el código: la baja hace `UPDATE ... SET activo = 0`, y el listado, la búsqueda, el CSV y las alertas filtran `activo = 1`. `existe_sku` debe seguir mirando todos los productos, porque el `UNIQUE` incluye a los dados de baja.
-6. Tests con pytest sobre `registrar_producto`, `entrada_stock` y `salida_stock` (BD de prueba). Dan **+5 de bonus** en la nota; CI simple también suma.
+6. ~~Tests con pytest de S1 + CI~~ (hecho el 17-10-2026). CI: `.github/workflows/ci.yml` (GitHub Actions, MySQL 8, corre `pytest` en cada push a `main` y en cada PR). Tests + CI dan **+5 de bonus**. Agregar tests de cada HU de S2.
 7. Crear `README.md` (lo exige la entrega), `requirements.txt` y un repo git o ZIP para `/increment`.
