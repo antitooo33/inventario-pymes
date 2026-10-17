@@ -220,8 +220,8 @@ Felipe no confirmado como Dev 3; sprints de 1 semana; pruebas de otros ramos; in
 app/         main.py, conexion.py, productos.py, stock.py, requirements.txt
 db/          inventario_pymes.sql
 docs/        contexto-ramo.md
-_archivo/    pyme.py (prototipo obsoleto), Avance_inventario/ (versión de Benjamín)
 ```
+Material descartado (`pyme.py`, `Avance_inventario/`) borrado el 17-10-2026: el original de `Avance_inventario/` sigue en `~/metodologia-agil/Sprint 1/Codigo/Avance_inventario/` y `pyme.py` se recupera con `git show eda602f:_archivo/pyme.py`.
 
 ### `app/` (versión modular, la base)
 | Archivo | Contenido |
@@ -240,11 +240,6 @@ El original es un dump de MySQL 8.0 sin `CREATE DATABASE`, con la collation `utf
 - Trae 4 productos de prueba (`SKU-002` con stock 5 para HU-06; `SKU-003` y `SKU-004` para el `<=` de HU-08).
 - Probado en MariaDB 11.8: 24 pruebas de esquema y 9 de la lógica de `app/` pasan.
 - **Hace `DROP TABLE`: reimportarlo borra los datos.**
-
-### `_archivo/` (descartado, no integrar)
-- `pyme.py`: prototipo en memoria (listas, campo `precio`, stock inicial 0). No usa BD y no cumple los CA.
-- `Avance_inventario/conexion.py`: `conectar()` con host 127.0.0.1 y **contraseña de root en texto plano** (ignorado en `.gitignore`). No copiarla a otros archivos ni al entregable.
-- `Avance_inventario/productos.py`: HU-04 con `cursor(dictionary=True)` y menú propio. Duplica `app/productos.py`.
 
 ### Esquema (versión corregida de `~/Codigo/`)
 ```sql
@@ -267,7 +262,7 @@ cd ~/Codigo/app && python main.py
 ```
 
 ### Pendientes técnicos detectados
-- ~~Unificar en una sola carpeta~~: hecho el 17-10-2026 (`app/`, `db/`, `_archivo/`). Falta decidir si `_archivo/` se entrega o se borra.
+- ~~Unificar en una sola carpeta~~: hecho el 17-10-2026 (`app/`, `db/`). `_archivo/` borrado el 17-10-2026.
 - `mostrar_tabla` marca "bajo mínimo" con `stock < minimo`, pero el CA de HU-08 pide `stock <= minimo`.
 - HU-04: la historia menciona "filtro por categoría"; el CA solo pide nombre o código. Aclarar con la PO.
 - HU-10: escribir el CSV con `encoding="utf-8-sig"` y `;` como separador para que Excel en español lea bien tildes y columnas.

@@ -47,8 +47,8 @@ app/         código ejecutable: main.py, conexion.py, productos.py, stock.py, r
 app/tests/   pruebas pytest (fixture en app/conftest.py)
 db/          inventario_pymes.sql
 docs/        contexto-ramo.md
-_archivo/    material descartado: pyme.py (prototipo obsoleto), Avance_inventario/ (versión de Benjamín)
 ```
+Material descartado (`pyme.py`, `Avance_inventario/`) borrado el 17-10-2026: el original de `Avance_inventario/` sigue en `~/metodologia-agil/Sprint 1/Codigo/Avance_inventario/` y `pyme.py` se recupera con `git show eda602f:_archivo/pyme.py`.
 
 ### `app/`
 - `conexion.py`: `obtener_conexion()` con el dict `CONFIG` (localhost, root, clave vacía).
@@ -58,11 +58,6 @@ _archivo/    material descartado: pyme.py (prototipo obsoleto), Avance_inventari
 
 ### `db/inventario_pymes.sql`
 Esquema oficial, corregido el 16-10-2026 (el dump original sigue intacto en `~/metodologia-agil/Sprint 1/Codigo/Avance_inventario/`, que es evidencia y no se edita). Crea la BD (`CREATE DATABASE IF NOT EXISTS` + `USE`) y **hace `DROP TABLE`: reimportar borra los datos**. Trae 4 productos de prueba (`SKU-001` a `SKU-004`). Probado en MariaDB 11.8.
-
-### `_archivo/`
-- `pyme.py`: prototipo en memoria (campo `precio`, sin BD). No integrar.
-- `Avance_inventario/conexion.py`: `conectar()`. **Clave de root en texto plano** (ignorado en `.gitignore`): no copiarla ni incluirla en el entregable.
-- `Avance_inventario/productos.py`: HU-04 con `cursor(dictionary=True)`. Duplica `app/productos.py`.
 
 ### Esquema
 ```sql
@@ -112,7 +107,7 @@ Más Release Notes. El tablero y el burndown los lleva el SM, pero las tarjetas 
 
 ## Deuda técnica / próximos pasos
 
-1. ~~Unificar en una sola app~~ (hecho el 17-10-2026). Falta decidir si `_archivo/` se entrega o se borra.
+1. ~~Unificar en una sola app~~ (hecho el 17-10-2026). `_archivo/` borrado el 17-10-2026.
 2. Credenciales por variables de entorno (`os.getenv`), no hardcodeadas.
 3. `mostrar_tabla` marca "bajo mínimo" con `<`; HU-08 exige `<=`.
 4. HU-10: escribir el CSV con `encoding="utf-8-sig"` y `delimiter=";"` para Excel en español.

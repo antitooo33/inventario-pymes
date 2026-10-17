@@ -5,8 +5,7 @@ __pycache__/
 venv/
 .pytest_cache/
 
-# Credenciales: clave de root en texto plano, no subir
-_archivo/Avance_inventario/conexion.py
+# Credenciales
 .env
 
 # Exportaciones
